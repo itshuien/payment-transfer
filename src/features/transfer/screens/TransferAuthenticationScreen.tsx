@@ -6,7 +6,7 @@ const TransferAuthenticationScreen = () => {
     const router = useRouter();
 
     const onSuccess = () => {
-        router.push('/transfer/success');
+        router.push('/transfer/processing');
     };
 
     return <AuthenticationScreen onSuccess={onSuccess} />;

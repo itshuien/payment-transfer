@@ -8,7 +8,9 @@ export default function TransferLayout() {
             <Stack.Screen name="note" />
             <Stack.Screen name="confirmation" />
             <Stack.Screen name="authentication" />
+            <Stack.Screen name="processing" options={{ gestureEnabled: false }} />
             <Stack.Screen name="success" options={{ gestureEnabled: false }} />
+            <Stack.Screen name="failure" options={{ gestureEnabled: false }} />
         </Stack>
     );
 }
