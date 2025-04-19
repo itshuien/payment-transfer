@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { KeyboardAvoidingView, Text, TextInput, StyleSheet, View, TouchableOpacity, SafeAreaView } from 'react-native';
 import ScreenHeader from '@components/ScreenHeader';
 import Button from '@components/Button';
+import useTransferContext from '../context/useTransferContext';
 
 const NOTE_SUGGESTIONS = [
     'Lunch',
@@ -16,10 +17,17 @@ const NOTE_SUGGESTIONS = [
 const TransferNoteScreen = () => {
     const router = useRouter();
 
+    const { setNote: setTransferNote } = useTransferContext();
+
     const [note, setNote] = useState('');
 
     const onSuggestionPress = (suggestion: string) => {
         setNote(suggestion);
+    };
+
+    const onNextPress = () => {
+        setTransferNote(note);
+        router.push('/transfer/confirmation');
     };
 
     return (
@@ -59,7 +67,7 @@ const TransferNoteScreen = () => {
                 <SafeAreaView>
                     <Button
                         text={'Next'}
-                        onPress={() => router.push('/transfer/confirmation')}
+                        onPress={onNextPress}
                         style={styles.cta}
                     />
                 </SafeAreaView>

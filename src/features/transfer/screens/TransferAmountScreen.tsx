@@ -4,6 +4,7 @@ import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import ScreenHeader from '@components/ScreenHeader';
 import Button from '@components/Button';
 import NumericKeyboard from '@components/NumericKeyboard';
+import useTransferContext from '../context/useTransferContext';
 
 // TODO: Replace with actual account balance
 const accountBalance = 1000;
@@ -17,6 +18,8 @@ const formatAmount = (amount: number) => {
 
 const TransferAmountScreen = () => {
     const router = useRouter();
+
+    const { setAmount } = useTransferContext();
 
     const [rawAmount, setRawAmount] = useState('');
 
@@ -38,6 +41,11 @@ const TransferAmountScreen = () => {
 
     const onBackspacePress = () => {
         setRawAmount((prev) => prev.slice(0, -1));
+    };
+
+    const onNextPress = () => {
+        setAmount(amount);
+        router.push('/transfer/note');
     };
 
     return (
@@ -62,7 +70,7 @@ const TransferAmountScreen = () => {
                     />
                     <Button
                         text={'Next'}
-                        onPress={() => router.push('/transfer/note')}
+                        onPress={onNextPress}
                         style={styles.cta}
                         disabled={!isValidAmount}
                     />
