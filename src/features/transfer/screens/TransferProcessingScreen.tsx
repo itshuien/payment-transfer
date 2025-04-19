@@ -2,15 +2,27 @@ import { useRouter } from 'expo-router';
 import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import ScreenHeader from '@components/ScreenHeader';
+import useTransferMoney from 'src/api/useTransferMoney';
 
 const TransferProcessingScreen = () => {
     const router = useRouter();
 
+    const { mutate: transferMoney, isSuccess, isError } = useTransferMoney();
+
     useEffect(() => {
-        setTimeout(() => {
-            router.push('/transfer/success');
-        }, 3000);
+        transferMoney({
+            amount: 100,
+            recipientId: 'loremipsum'
+        });
     }, []);
+
+    useEffect(() => {
+        if (isSuccess) {
+            router.push('/transfer/success');
+        } else if (isError) {
+            router.push('/transfer/failure');
+        }
+    }, [isSuccess, isError]);
 
     return (
         <View style={{ flex: 1 }}>
