@@ -7,6 +7,7 @@ export default function TransferLayout() {
             <Stack.Screen name="amount" />
             <Stack.Screen name="note" />
             <Stack.Screen name="confirmation" />
+            <Stack.Screen name="authentication" />
             <Stack.Screen name="success" options={{ gestureEnabled: false }} />
         </Stack>
     );

@@ -7,6 +7,10 @@ import Button from '@components/Button';
 const TransferConfirmationScreen = () => {
     const router = useRouter();
 
+    const onConfirmPress = () => {
+        router.push('/transfer/authentication');
+    };
+
     return (
         <View style={{ flex: 1 }}>
             <ScreenHeader
@@ -15,7 +19,7 @@ const TransferConfirmationScreen = () => {
             />
             <Button
                 text={'Confirm'}
-                onPress={() => router.push('/transfer/success')}
+                onPress={onConfirmPress}
                 style={{ margin: 16 }}
             />
         </View>
