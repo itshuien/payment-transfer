@@ -5,16 +5,10 @@ import ScreenHeader from '@components/ScreenHeader';
 import Button from '@components/Button';
 import NumericKeyboard from '@components/NumericKeyboard';
 import useTransferContext from '../context/useTransferContext';
+import { formatAmount } from '@utils';
 
 // TODO: Replace with actual account balance
 const accountBalance = 1000;
-
-const formatAmount = (amount: number) => {
-    return amount.toLocaleString('en-MY', {
-        style: 'currency',
-        currency: 'MYR',
-    });
-}
 
 const TransferAmountScreen = () => {
     const router = useRouter();

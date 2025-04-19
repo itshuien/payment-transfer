@@ -10,6 +10,9 @@
       "@features/*": [
         "src/features/*"
       ],
+      "@utils": [
+        "src/utils/"
+      ],
     }
   },
   "include": [
