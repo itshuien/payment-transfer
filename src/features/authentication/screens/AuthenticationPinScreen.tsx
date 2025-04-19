@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import ScreenHeader from '@components/ScreenHeader';
 import { useRouter } from 'expo-router';
 import NumericKeyboard from '@components/NumericKeyboard';
+import SecureStoreService from 'src/services/SecureStoreService';
 
 interface Props {
     onSuccess: () => void;
@@ -16,8 +17,11 @@ const AuthenticationPinScreen: React.FC<Props> = (props) => {
     const [pin, setPin] = useState('');
     const [isInvalid, setIsInvalid] = useState(false);
 
-    const validatePin = (pin: string) => {
-        if (pin === '123456') {
+    const validatePin = async (pin: string) => {
+        const storedPin = await SecureStoreService.getItem('USER_PIN');
+        const isValidPin = storedPin === pin;
+
+        if (isValidPin) {
             onSuccess();
         } else {
             setIsInvalid(true);
