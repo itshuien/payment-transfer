@@ -4,6 +4,7 @@ import ListItem from '@components/ListItem';
 import { formatAmount } from '@utils';
 import { useRouter } from 'expo-router';
 import useTransferHistory from 'src/api/useTransferHistory';
+import { CURRENT_USER } from 'src/api/mocks/constants';
 
 const HomeTransactionHistorySection = () => {
     const router = useRouter();
@@ -14,9 +15,11 @@ const HomeTransactionHistorySection = () => {
         <View style={styles.container}>
             <Text style={styles.title}>Recent Transactions</Text>
             {transactions.map((item) => {
-                const oppositeUser = item.amount < 0 ? item.sender : item.recipient;
+                const oppositeUser = item.sender.phoneNumber === CURRENT_USER.phoneNumber
+                    ? item.recipient
+                    : item.sender;
 
-                console.log(item);
+                const isOutgoingTransfer = item.sender.phoneNumber === CURRENT_USER.phoneNumber;
 
                 return (
                     <ListItem
@@ -33,7 +36,7 @@ const HomeTransactionHistorySection = () => {
                         trailing={{
                             text: formatAmount(item.amount),
                             style: {
-                                color: item.amount < 0 ? '#ff3333' : '#34bf73',
+                                color: isOutgoingTransfer ? '#ff3333' : '#34bf73',
                             },
                         }}
                         onPress={() => null}
