@@ -25,6 +25,7 @@ const TransferContextProvider: React.FC<PropsWithChildren<Props>> = (props) => {
     const [recipient, setRecipient] = useState<Contact>({
         name: initialState.recipient.name,
         phoneNumber: initialState.recipient.phoneNumber,
+        avatarUrl: initialState.recipient.avatarUrl,
     });
     const [amount, setAmount] = useState(initialState.amount);
     const [note, setNote] = useState(initialState.note);

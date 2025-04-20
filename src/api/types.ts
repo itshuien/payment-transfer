@@ -2,6 +2,7 @@ export interface TransferRequest {
     recipient: {
         name: string;
         phoneNumber: string;
+        avatarUrl?: string;
     };
     amount: number;
     note?: string;

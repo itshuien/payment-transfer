@@ -24,6 +24,7 @@ const success = (request: TransferRequest) => {
                     recipient: {
                         name: request.recipient.name,
                         phoneNumber: request.recipient.phoneNumber,
+                        avatarUrl: request.recipient.avatarUrl,
                     },
                     amount: request.amount,
                     note: request.note,

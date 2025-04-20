@@ -4,12 +4,19 @@ import { Stack, useLocalSearchParams } from 'expo-router';
 type Params = {
     recipientName: string;
     recipientPhoneNumber: string;
+    recipientAvatarUrl: string;
     amount: string;
     note: string;
 }
 
 export default function TransferLayout() {
-    const { recipientName, recipientPhoneNumber, amount, note } = useLocalSearchParams<Params>();
+    const {
+        recipientName,
+        recipientPhoneNumber,
+        recipientAvatarUrl,
+        amount,
+        note,
+    } = useLocalSearchParams<Params>();
 
     return (
         <TransferContextProvider
@@ -17,6 +24,7 @@ export default function TransferLayout() {
                 recipient: {
                     name: recipientName || '',
                     phoneNumber: recipientPhoneNumber || '',
+                    avatarUrl: recipientAvatarUrl,
                 },
                 amount: Number(amount) || 0,
                 note: note || '',

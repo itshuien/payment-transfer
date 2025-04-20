@@ -12,6 +12,7 @@ import WalletApi from 'src/api/WalletApi';
 import useTransferHistory from 'src/api/useTransferHistory';
 import getTransferHistoryHandlers from 'src/api/mocks/getTransferHistoryHandlers';
 import TransferApi from 'src/api/TransferApi';
+import { TransferRequest } from 'src/api/types';
 
 const TransferProcessingScreen = () => {
     const router = useRouter();
@@ -24,11 +25,13 @@ const TransferProcessingScreen = () => {
     const { mutate: transferMoney } = useTransferMoney();
 
     useEffect(() => {
-        transferMoney({
+        const transferRequest: TransferRequest = {
             recipient,
             amount,
             note,
-        }, {
+        };
+
+        transferMoney(transferRequest, {
             onSuccess: (response) => {
                 // Mock deducting the amount from account balance
                 server.use(getAccountBalanceHandlers.success(accountBalance - amount));

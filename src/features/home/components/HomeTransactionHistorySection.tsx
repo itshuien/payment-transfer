@@ -25,6 +25,7 @@ const HomeTransactionHistorySection = () => {
                 senderPhoneNumber: transaction.sender.phoneNumber,
                 recipientName: oppositeUser.name,
                 recipientPhoneNumber: oppositeUser.phoneNumber,
+                recipientAvatarUrl: oppositeUser.avatarUrl,
                 amount: transaction.amount,
                 note: transaction.note,
                 createdAt: transaction.createdAt,

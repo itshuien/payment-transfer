@@ -12,6 +12,7 @@ type Params = {
     senderPhoneNumber: string;
     recipientName: string;
     recipientPhoneNumber: string;
+    recipientAvatarUrl: string;
     amount: string;
     note: string;
     transactionId: string;
@@ -26,6 +27,7 @@ const TransferHistoryDetailsScreen = () => {
         senderPhoneNumber,
         recipientName,
         recipientPhoneNumber,
+        recipientAvatarUrl,
         amount,
         note,
         transactionId,
@@ -91,6 +93,7 @@ const TransferHistoryDetailsScreen = () => {
                                     params: {
                                         recipientName,
                                         recipientPhoneNumber,
+                                        recipientAvatarUrl,
                                         amount,
                                         note,
                                     },
