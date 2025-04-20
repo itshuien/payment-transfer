@@ -68,7 +68,10 @@ const TransferHistoryDetailsScreen = () => {
 
     return (
         <View style={{ flex: 1 }}>
-            <ScreenHeader title={'Transaction Details'} />
+            <ScreenHeader
+                title={'Transaction Details'}
+                onBackPress={() => router.dismissTo('/')}
+            />
             <View style={styles.body}>
                 <View style={styles.bodyContent}>
                     <Ionicons
@@ -78,8 +81,8 @@ const TransferHistoryDetailsScreen = () => {
                     />
                     {renderTransactionDetails()}
                 </View>
-                <SafeAreaView style={{ gap: 12 }}>
-                    {isOutgoingTransfer && (
+                {isOutgoingTransfer && (
+                    <SafeAreaView>
                         <Button
                             text={'Send again'}
                             onPress={() => {
@@ -93,14 +96,10 @@ const TransferHistoryDetailsScreen = () => {
                                     },
                                 });
                             }}
-                            style={{ backgroundColor: '#007fff' }}
                         />
-                    )}
-                    <Button
-                        text={'Close'}
-                        onPress={() => router.dismissTo('/')}
-                    />
-                </SafeAreaView>
+
+                    </SafeAreaView>
+                )}
             </View>
         </View>
     );
@@ -145,7 +144,8 @@ const styles = StyleSheet.create({
         gap: 24,
     },
     rowLabel: {
-        flexShrink: 1,
+        flexGrow: 1,
+        flexShrink: 0,
         fontSize: 16,
         color: '#888',
     },

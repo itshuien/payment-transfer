@@ -15,7 +15,12 @@ const HomeScreen = () => {
     return (
         <View style={{ flex: 1 }}>
             <ScreenHeader title="Home" />
-            <ScrollView style={styles.body} contentContainerStyle={styles.bodyContent} scrollIndicatorInsets={{ top: 1 }}>
+            <ScrollView
+                style={styles.body}
+                contentContainerStyle={styles.bodyContent}
+                scrollIndicatorInsets={{ top: 1 }}
+                alwaysBounceVertical={false}
+            >
                 <HomeAccountBalanceSection />
                 <Button
                     text={'Send money'}
@@ -39,7 +44,6 @@ const styles = StyleSheet.create({
     },
     actionButton: {
         flex: 1,
-        paddingVertical: 12,
     },
 });
 

@@ -92,7 +92,8 @@ const styles = StyleSheet.create({
         gap: 24,
     },
     rowLabel: {
-        flexShrink: 1,
+        flexGrow: 1,
+        flexShrink: 0,
         fontSize: 16,
         color: '#888',
     },
