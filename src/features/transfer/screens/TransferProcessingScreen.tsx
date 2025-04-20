@@ -21,7 +21,7 @@ const TransferProcessingScreen = () => {
     const { recipient, amount, note, setResponse } = useTransferContext();
 
     const { data: transactions = [] } = useTransferHistory();
-    const { mutate: transferMoney, isSuccess, isError } = useTransferMoney();
+    const { mutate: transferMoney } = useTransferMoney();
 
     useEffect(() => {
         transferMoney({
@@ -39,17 +39,23 @@ const TransferProcessingScreen = () => {
                 queryClient.invalidateQueries({ queryKey: [TransferApi.ROUTES.TRANSFER_HISTORY] });
 
                 setResponse(response);
+
+                router.push('/transfer/success');
             },
+            onError: (error) => {
+                router.push({
+                    pathname: '/transfer/failure',
+                    params: {
+                        errorCode: 'code' in error
+                            ? error.code
+                            : error.message.includes('Failed to fetch')
+                                ? 'network'
+                                : 'server'
+                    }
+                });
+            }
         });
     }, []);
-
-    useEffect(() => {
-        if (isSuccess) {
-            router.push('/transfer/success');
-        } else if (isError) {
-            router.push('/transfer/failure');
-        }
-    }, [isSuccess, isError]);
 
     return (
         <View style={{ flex: 1 }}>

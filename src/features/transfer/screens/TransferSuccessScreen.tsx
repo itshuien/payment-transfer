@@ -5,7 +5,7 @@ import ScreenHeader from '@components/ScreenHeader';
 import Button from '@components/Button';
 import { Ionicons } from '@expo/vector-icons';
 import useTransferContext from '../context/useTransferContext';
-import { TransferResponse } from 'src/api/types';
+import { TransferSuccessResponse } from 'src/api/types';
 import { CONTACTS } from '@features/contacts/constants';
 import { formatAmount } from '@utils';
 
@@ -21,7 +21,7 @@ const TransferSuccessScreen = () => {
         </View>
     );
 
-    const renderTransactionDetails = (transaction: TransferResponse['data']['transaction']) => {
+    const renderTransactionDetails = (transaction: TransferSuccessResponse['data']['transaction']) => {
         const contact = CONTACTS.find(item => item.phoneNumber === transaction.recipient.phoneNumber);
 
         return (

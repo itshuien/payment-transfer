@@ -1,6 +1,6 @@
 import { delay, http, HttpResponse } from 'msw';
 import TransferApi from '../TransferApi';
-import { TransferRequest, TransferResponse } from '../types';
+import { TransferErrorResponse, TransferRequest, TransferSuccessResponse } from '../types';
 import { CURRENT_USER } from './constants';
 import { faker } from '@faker-js/faker/.';
 
@@ -10,9 +10,10 @@ const success = (request: TransferRequest) => {
     return http.post(url, async () => {
         await delay();
 
-        return HttpResponse.json<TransferResponse>({
+        return HttpResponse.json<TransferSuccessResponse>({
             status: 'success',
             message: 'Transfer successful',
+            code: 'success',
             data: {
                 transaction: {
                     id: faker.string.uuid(),
@@ -35,13 +36,46 @@ const success = (request: TransferRequest) => {
     })
 };
 
-const error = http.post(url, async () => {
+const invalidRecipientError = http.post(url, async () => {
     await delay();
 
-    return HttpResponse.json(null, { status: 500 });
-})
+    return HttpResponse.json<TransferErrorResponse>({
+        status: 'error',
+        message: 'Transfer failed',
+        code: 'invalid_recipient',
+    }, { status: 400 });
+});
+
+const insufficientBalanceError = http.post(url, async () => {
+    await delay();
+
+    return HttpResponse.json<TransferErrorResponse>({
+        status: 'error',
+        message: 'Transfer failed',
+        code: 'insufficient_balance',
+    }, { status: 400 });
+});
+
+const serverError = http.post(url, async () => {
+    await delay();
+
+    return HttpResponse.json<TransferErrorResponse>({
+        status: 'error',
+        message: 'Transfer failed',
+        code: 'server',
+    }, { status: 500 });
+});
+
+const networkError = http.post(url, async () => {
+    await delay();
+
+    return HttpResponse.error();
+});
 
 export default {
     success,
-    error,
+    invalidRecipientError,
+    insufficientBalanceError,
+    serverError,
+    networkError,
 };

@@ -11,13 +11,22 @@ export interface ApiResponse<T> extends Response {
     json(): Promise<T>;
 }
 
-export interface TransferResponse {
-    status: 'success' | 'error';
+export interface TransferSuccessResponse {
+    status: 'success';
     message: string;
+    code: 'success';
     data: {
         transaction: Transaction;
     }
 }
+
+export interface TransferErrorResponse {
+    status: 'error';
+    message: string;
+    code: 'invalid_recipient' | 'insufficient_balance' | 'server';
+}
+
+export type TransferResponse = TransferSuccessResponse | TransferErrorResponse;
 
 export interface Transaction {
     id: string;

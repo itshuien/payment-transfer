@@ -1,12 +1,28 @@
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import ScreenHeader from '@components/ScreenHeader';
 import Button from '@components/Button';
 import { Ionicons } from '@expo/vector-icons';
+import { TransferErrorResponse } from 'src/api/types';
+
+type TransferErrorCode = TransferErrorResponse['code'] | 'network';
+
+const errorMessages: Record<TransferErrorCode, string> = {
+    invalid_recipient: `We couldn't find the recipient's account. Please check the phone number and try again.`,
+    insufficient_balance: `You don't have enough balance to complete this transfer.`,
+    server: 'Something went wrong. Please try again later.',
+    network: 'Check your internet connection and try again.',
+};
+
+type Params = {
+    errorCode: TransferErrorCode;
+}
 
 const TransferFailureScreen = () => {
     const router = useRouter();
+
+    const { errorCode } = useLocalSearchParams<Params>();
 
     return (
         <View style={{ flex: 1 }}>
@@ -15,7 +31,7 @@ const TransferFailureScreen = () => {
                 <View style={styles.bodyContent}>
                     <Ionicons name="alert-circle" size={88} color="#ff3333" />
                     <Text style={styles.title}>Oooops!</Text>
-                    <Text style={styles.description}>Something went wrong.</Text>
+                    <Text style={styles.description}>{errorMessages[errorCode]}</Text>
                 </View>
                 <SafeAreaView style={{ gap: 12 }}>
                     <Button
@@ -52,9 +68,10 @@ const styles = StyleSheet.create({
         fontWeight: 600,
     },
     description: {
-        color: '#aaa',
+        color: '#999',
         fontSize: 16,
         textAlign: 'center',
+        marginHorizontal: 16,
     },
 });
 

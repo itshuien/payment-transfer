@@ -1,30 +1,30 @@
 import { useMutation } from "@tanstack/react-query";
 import TransferApi from "./TransferApi";
-import { TransferRequest, TransferResponse } from "./types";
+import { TransferErrorResponse, TransferRequest, TransferSuccessResponse } from "./types";
 import { server } from "./mocks/server";
 import transferHandlers from "./mocks/transferHandlers";
 
 const useTransferMoney = () => {
-    return useMutation<TransferResponse, Error, TransferRequest>({
+    return useMutation<TransferSuccessResponse, TransferErrorResponse | Error, TransferRequest>({
         mutationFn: async (request) => {
             /**
              * Override transfer request handlers.
              * Comment out the scenario you want to test.
              */
             server.use(transferHandlers.success(request));
-            // server.use(transferHandlers.error);
+            // server.use(transferHandlers.insufficientBalanceError);
+            // server.use(transferHandlers.networkError);
+            // server.use(transferHandlers.invalidRecipientError)
+            // server.use(transferHandlers.serverError);
 
             const response = await TransferApi.transfer(request);
+            const responseJson = await response.json();
 
-            if (!response.ok) {
-                throw new Error('Transfer failed');
+            if (!response.ok || responseJson.status === "error") {
+                throw responseJson;
             }
 
-            const responseJson = await response.json();
             return responseJson;
-        },
-        onError: (error) => {
-            console.error('Error transferring money:', error);
         },
     });
 };
