@@ -9,6 +9,9 @@ import getAccountBalanceHandlers from 'src/api/mocks/getAccountBalanceHandlers';
 import useAccountContext from '@features/account/context/useAccountContext';
 import { useQueryClient } from '@tanstack/react-query';
 import WalletApi from 'src/api/WalletApi';
+import useTransferHistory from 'src/api/useTransferHistory';
+import getTransferHistoryHandlers from 'src/api/mocks/getTransferHistoryHandlers';
+import TransferApi from 'src/api/TransferApi';
 
 const TransferProcessingScreen = () => {
     const router = useRouter();
@@ -17,6 +20,7 @@ const TransferProcessingScreen = () => {
     const { accountBalance } = useAccountContext();
     const { recipient, amount, note, setResponse } = useTransferContext();
 
+    const { data: transactions = [] } = useTransferHistory();
     const { mutate: transferMoney, isSuccess, isError } = useTransferMoney();
 
     useEffect(() => {
@@ -29,6 +33,10 @@ const TransferProcessingScreen = () => {
                 // Mock deducting the amount from account balance
                 server.use(getAccountBalanceHandlers.success(accountBalance - amount));
                 queryClient.invalidateQueries({ queryKey: [WalletApi.ROUTES.ACCOUNT_BALANCE] });
+
+                // Mock adding the transaction to the transfer history
+                server.use(getTransferHistoryHandlers.success([response.data.transaction, ...transactions]));
+                queryClient.invalidateQueries({ queryKey: [TransferApi.ROUTES.TRANSFER_HISTORY] });
 
                 setResponse(response);
             },

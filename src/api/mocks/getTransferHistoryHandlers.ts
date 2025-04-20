@@ -1,11 +1,11 @@
 import { delay, http, HttpResponse } from 'msw';
 import TransferApi from '../TransferApi';
-import { TransferHistoryResponse } from '../types';
+import { Transaction, TransferHistoryResponse } from '../types';
 import { transactionBuilder } from './factories';
 
 const url = TransferApi.ROUTES.TRANSFER_HISTORY;
 
-const success = () => {
+const success = (transactions?: Transaction[]) => {
     return http.get(url, async () => {
         await delay();
 
@@ -13,7 +13,7 @@ const success = () => {
             status: 'success',
             message: 'Transfer history retrieved successfully',
             data: {
-                transactions: transactionBuilder.buildList(5),
+                transactions: transactions?.slice(0, 5) ?? transactionBuilder.buildList(5),
             }
         });
     });
