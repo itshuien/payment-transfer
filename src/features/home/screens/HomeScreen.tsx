@@ -32,7 +32,7 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
     body: {
         flex: 1,
-        paddingHorizontal: 24,
+        paddingHorizontal: 16,
     },
     bodyContent: {
         gap: 16,
