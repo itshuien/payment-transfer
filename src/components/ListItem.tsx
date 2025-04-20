@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextStyle, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TextStyle, TouchableOpacity, View } from 'react-native';
 import React, { ComponentProps } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -30,7 +30,16 @@ const ListItem: React.FC<Props> = (props) => {
                         <Ionicons name={leading.icon} size={24} color="#bbb" />
                     </View>
                 ) : (
-                    <View style={styles.leadingContainer} />
+                    <View style={styles.leadingContainer}>
+                        <Image
+                            source={{ uri: leading.imageUrl }}
+                            style={{
+                                width: 48,
+                                height: 48,
+                            }}
+                            resizeMode="cover"
+                        />
+                    </View>
                 )
             )}
             <View style={styles.textContainer}>
@@ -69,6 +78,7 @@ const styles = StyleSheet.create({
         width: 48,
         height: 48,
         borderRadius: 24,
+        overflow: 'hidden',
         backgroundColor: '#ddd',
         justifyContent: 'center',
         alignItems: 'center',
