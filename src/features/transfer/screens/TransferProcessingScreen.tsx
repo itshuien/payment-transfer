@@ -3,16 +3,22 @@ import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import ScreenHeader from '@components/ScreenHeader';
 import useTransferMoney from 'src/api/useTransferMoney';
+import useTransferContext from '../context/useTransferContext';
 
 const TransferProcessingScreen = () => {
     const router = useRouter();
+
+    const { recipient, amount, note } = useTransferContext();
 
     const { mutate: transferMoney, isSuccess, isError } = useTransferMoney();
 
     useEffect(() => {
         transferMoney({
-            amount: 100,
-            recipientId: 'loremipsum'
+            recipient: {
+                phoneNumber: recipient,
+            },
+            amount,
+            note,
         });
     }, []);
 
