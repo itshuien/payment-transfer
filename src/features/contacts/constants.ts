@@ -1,0 +1,31 @@
+import { Contact } from "./types";
+
+/** Mock contacts */
+export const CONTACTS: Contact[] = [
+    { name: "Alice Brown", phoneNumber: "+1234567890" },
+    { name: "Bob Smith", phoneNumber: "+0987654321" },
+    { name: "Charlie Johnson", phoneNumber: "+1122334455" },
+    { name: "David Wilson", phoneNumber: "+2233445566" },
+    { name: "Eve Davis", phoneNumber: "+3344556677" },
+    { name: "Frank Miller", phoneNumber: "+4455667788" },
+    { name: "Grace Lee", phoneNumber: "+5566778899" },
+    { name: "Hannah Brown", phoneNumber: "+6677889900" },
+    { name: "Ian Smith", phoneNumber: "+7788990011" },
+    { name: "Jack Johnson", phoneNumber: "+8899001122" },
+    { name: "Kathy Wilson", phoneNumber: "+9900112233" },
+    { name: "Liam Davis", phoneNumber: "+1011121314" },
+    { name: "Mia Miller", phoneNumber: "+1213141516" },
+    { name: "Noah Lee", phoneNumber: "+1314151617" },
+    { name: "Olivia Brown", phoneNumber: "+1415161718" },
+    { name: "Paul Smith", phoneNumber: "+1516171819" },
+    { name: "Quinn Johnson", phoneNumber: "+1617181920" },
+    { name: "Rachel Wilson", phoneNumber: "+1718192021" },
+    { name: "Sam Davis", phoneNumber: "+1819202122" },
+    { name: "Tina Miller", phoneNumber: "+1920212223" },
+    { name: "Uma Lee", phoneNumber: "+2021222324" },
+    { name: "Victor Brown", phoneNumber: "+2122232425" },
+    { name: "Wendy Smith", phoneNumber: "+2223242526" },
+    { name: "Xander Johnson", phoneNumber: "+2324252627" },
+    { name: "Yara Wilson", phoneNumber: "+2425262728" },
+    { name: "Zane Davis", phoneNumber: "+2526272829" },
+];
