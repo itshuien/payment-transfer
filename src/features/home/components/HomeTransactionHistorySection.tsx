@@ -5,11 +5,32 @@ import { formatAmount } from '@utils';
 import { useRouter } from 'expo-router';
 import useTransferHistory from 'src/api/useTransferHistory';
 import { CURRENT_USER } from 'src/api/mocks/constants';
+import { Transaction } from 'src/api/types';
 
 const HomeTransactionHistorySection = () => {
     const router = useRouter();
 
     const { data: transactions = [] } = useTransferHistory();
+
+    const onTransactionPress = (transaction: Transaction) => {
+        const oppositeUser = transaction.sender.phoneNumber === CURRENT_USER.phoneNumber
+            ? transaction.recipient
+            : transaction.sender;
+
+        router.push({
+            pathname: '/transfer/history-details',
+            params: {
+                transactionId: transaction.id,
+                senderName: transaction.sender.name,
+                senderPhoneNumber: transaction.sender.phoneNumber,
+                recipientName: oppositeUser.name,
+                recipientPhoneNumber: oppositeUser.phoneNumber,
+                amount: transaction.amount,
+                note: transaction.note,
+                createdAt: transaction.createdAt,
+            },
+        });
+    }
 
     return (
         <View style={styles.container}>
@@ -39,7 +60,7 @@ const HomeTransactionHistorySection = () => {
                                 color: isOutgoingTransfer ? '#ff3333' : '#34bf73',
                             },
                         }}
-                        onPress={() => null}
+                        onPress={() => onTransactionPress(item)}
                     />
                 )
             })}

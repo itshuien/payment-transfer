@@ -10,7 +10,7 @@ export const transactionBuilder = makeFactory<Transaction>(() => {
 
     const oppositeUser = {
         name: faker.person.fullName(),
-        phoneNumber: faker.phone.number(),
+        phoneNumber: faker.phone.number({ style: 'international' }),
         avatarUrl: faker.image.personPortrait({ size: 64 }),
     };
 
@@ -24,11 +24,11 @@ export const transactionBuilder = makeFactory<Transaction>(() => {
     });
 
     return {
-        id: faker.string.uuid(),
+        id: faker.string.alphanumeric(10).toUpperCase(),
         sender: isOutgoingTransfer ? CURRENT_USER : oppositeUser,
         recipient: isOutgoingTransfer ? oppositeUser : CURRENT_USER,
         amount: faker.number.int({ min: 1, max: 1000 }),
-        note: faker.helpers.arrayElement([faker.lorem.sentence(), undefined]),
+        note: faker.helpers.arrayElement([faker.lorem.sentence({ min: 0, max: 5 }), undefined]),
         status: faker.helpers.arrayElement(['completed', 'pending']),
         createdAt: createdAt,
         updatedAt: createdAt,

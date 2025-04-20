@@ -16,7 +16,7 @@ const success = (request: TransferRequest) => {
             code: 'success',
             data: {
                 transaction: {
-                    id: faker.string.uuid(),
+                    id: faker.string.alphanumeric(10).toUpperCase(),
                     sender: {
                         name: CURRENT_USER.name,
                         phoneNumber: CURRENT_USER.phoneNumber,

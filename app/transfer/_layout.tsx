@@ -13,6 +13,7 @@ export default function TransferLayout() {
                 <Stack.Screen name="processing" options={{ gestureEnabled: false }} />
                 <Stack.Screen name="success" options={{ gestureEnabled: false }} />
                 <Stack.Screen name="failure" options={{ gestureEnabled: false }} />
+                <Stack.Screen name="history-details" />
             </Stack>
         </TransferContextProvider>
     );
