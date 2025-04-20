@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import ScreenHeader from '@components/ScreenHeader';
 import Button from '@components/Button';
@@ -7,9 +7,12 @@ import NumericKeyboard from '@components/NumericKeyboard';
 import useTransferContext from '../context/useTransferContext';
 import { formatAmount } from '@utils';
 import useAccountContext from '@features/account/context/useAccountContext';
+import ShakeableView, { ShakeableViewRef } from '@components/ShakeableView';
 
 const TransferAmountScreen = () => {
     const router = useRouter();
+
+    const shakeRef = useRef<ShakeableViewRef>(null);
 
     const { accountBalance } = useAccountContext();
 
@@ -29,6 +32,12 @@ const TransferAmountScreen = () => {
         if (!accountBalance) return false;
         return amount > 0 && amount <= accountBalance;
     }, [amount]);
+
+    useEffect(() => {
+        if (amount > accountBalance) {
+            shakeRef.current?.triggerShake();
+        }
+    }, [amount, accountBalance]);
 
     const onKeyPress = (key: string) => {
         setRawAmount((prev) => prev + key);
@@ -54,11 +63,11 @@ const TransferAmountScreen = () => {
                     <Text style={[styles.amountText, { color: amount > 0 ? 'black' : '#888' }]}>
                         {formatAmount(amount)}
                     </Text>
-                    {accountBalance && (
+                    <ShakeableView ref={shakeRef}>
                         <Text style={{ color: amount <= accountBalance ? '#888' : 'red' }}>
                             Account balance: {formatAmount(accountBalance)}
                         </Text>
-                    )}
+                    </ShakeableView>
                 </View>
                 <SafeAreaView>
                     <NumericKeyboard

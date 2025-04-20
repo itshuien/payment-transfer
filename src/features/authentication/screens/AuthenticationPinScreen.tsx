@@ -1,9 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ScreenHeader from '@components/ScreenHeader';
 import { useRouter } from 'expo-router';
 import NumericKeyboard from '@components/NumericKeyboard';
 import SecureStoreService from 'src/services/SecureStoreService';
+import ShakeableView, { ShakeableViewRef } from '@components/ShakeableView';
 
 interface Props {
     onSuccess: () => void;
@@ -13,6 +14,8 @@ const AuthenticationPinScreen: React.FC<Props> = (props) => {
     const router = useRouter();
 
     const { onSuccess } = props;
+
+    const shakeRef = useRef<ShakeableViewRef>(null);
 
     const [pin, setPin] = useState('');
     const [isInvalid, setIsInvalid] = useState(false);
@@ -36,6 +39,12 @@ const AuthenticationPinScreen: React.FC<Props> = (props) => {
 
         validatePin(pin);
     }, [pin, validatePin]);
+
+    useEffect(() => {
+        if (isInvalid) {
+            shakeRef.current?.triggerShake();
+        }
+    }, [isInvalid]);
 
     const onKeyPress = (key: string) => {
         if (pin.length >= 6) return;
@@ -67,14 +76,14 @@ const AuthenticationPinScreen: React.FC<Props> = (props) => {
         <View style={styles.container}>
             <ScreenHeader title="Enter 6-digits PIN" onBackPress={() => router.back()} />
             <View style={styles.body}>
-                <View style={styles.pinContainer}>
+                <ShakeableView ref={shakeRef} style={styles.pinContainer}>
                     <View style={styles.dotsContainer}>
                         {Array.from({ length: 6 }).map((_, index) => renderDot(index))}
                     </View>
                     <Text style={[styles.errorText, { opacity: isInvalid ? 1 : 0 }]}>
                         Invalid PIN. Please try again.
                     </Text>
-                </View>
+                </ShakeableView>
                 <View style={styles.keyboardContainer}>
                     <NumericKeyboard
                         onKeyPress={onKeyPress}
