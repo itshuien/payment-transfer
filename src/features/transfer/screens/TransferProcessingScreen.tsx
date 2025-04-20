@@ -4,10 +4,17 @@ import { Text, View } from 'react-native';
 import ScreenHeader from '@components/ScreenHeader';
 import useTransferMoney from 'src/api/useTransferMoney';
 import useTransferContext from '../context/useTransferContext';
+import { server } from 'src/api/mocks/server';
+import getAccountBalanceHandlers from 'src/api/mocks/getAccountBalanceHandlers';
+import useAccountContext from '@features/account/context/useAccountContext';
+import { useQueryClient } from '@tanstack/react-query';
+import WalletApi from 'src/api/WalletApi';
 
 const TransferProcessingScreen = () => {
     const router = useRouter();
+    const queryClient = useQueryClient();
 
+    const { accountBalance } = useAccountContext();
     const { recipient, amount, note, setResponse } = useTransferContext();
 
     const { mutate: transferMoney, isSuccess, isError } = useTransferMoney();
@@ -18,7 +25,13 @@ const TransferProcessingScreen = () => {
             amount,
             note,
         }, {
-            onSuccess: setResponse,
+            onSuccess: (response) => {
+                // Mock deducting the amount from account balance
+                server.use(getAccountBalanceHandlers.success(accountBalance - amount));
+                queryClient.invalidateQueries({ queryKey: [WalletApi.ROUTES.ACCOUNT_BALANCE] });
+
+                setResponse(response);
+            },
         });
     }, []);
 
