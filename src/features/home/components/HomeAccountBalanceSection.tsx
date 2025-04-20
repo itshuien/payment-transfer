@@ -1,11 +1,17 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
+import { formatAmount } from '@utils';
+import useAccountContext from '@features/account/context/useAccountContext';
 
 const HomeAccountBalanceSection = () => {
+    const { accountBalance } = useAccountContext();
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Account Balance</Text>
-            <Text style={styles.amount}>$1000.00</Text>
+            <Text style={styles.amount}>
+                {accountBalance ? formatAmount(accountBalance) : 'RM ****'}
+            </Text>
         </View>
     );
 }

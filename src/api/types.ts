@@ -30,3 +30,11 @@ export interface TransferResponse {
         }
     }
 }
+
+export interface AcccountBalanceResponse {
+    status: 'success' | 'error';
+    message: string;
+    data: {
+        amount: number;
+    }
+}

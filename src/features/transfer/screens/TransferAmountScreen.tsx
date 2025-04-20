@@ -6,12 +6,12 @@ import Button from '@components/Button';
 import NumericKeyboard from '@components/NumericKeyboard';
 import useTransferContext from '../context/useTransferContext';
 import { formatAmount } from '@utils';
-
-// TODO: Replace with actual account balance
-const accountBalance = 1000;
+import useAccountContext from '@features/account/context/useAccountContext';
 
 const TransferAmountScreen = () => {
     const router = useRouter();
+
+    const { accountBalance } = useAccountContext();
 
     const { setAmount } = useTransferContext();
 
@@ -26,6 +26,7 @@ const TransferAmountScreen = () => {
     }, [rawAmount]);
 
     const isValidAmount = useMemo(() => {
+        if (!accountBalance) return false;
         return amount > 0 && amount <= accountBalance;
     }, [amount]);
 
@@ -53,9 +54,11 @@ const TransferAmountScreen = () => {
                     <Text style={[styles.amountText, { color: amount > 0 ? 'black' : '#888' }]}>
                         {formatAmount(amount)}
                     </Text>
-                    <Text style={{ color: amount <= accountBalance ? '#888' : 'red' }}>
-                        Account balance: {formatAmount(accountBalance)}
-                    </Text>
+                    {accountBalance && (
+                        <Text style={{ color: amount <= accountBalance ? '#888' : 'red' }}>
+                            Account balance: {formatAmount(accountBalance)}
+                        </Text>
+                    )}
                 </View>
                 <SafeAreaView>
                     <NumericKeyboard
