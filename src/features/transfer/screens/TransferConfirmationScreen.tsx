@@ -34,7 +34,8 @@ const TransferConfirmationScreen = () => {
                         {formatAmount(amount)}
                     </Text>
                     <View style={styles.details}>
-                        {renderTransferDetailsRow('Recipient', recipient)}
+                        {renderTransferDetailsRow('Recipient name', recipient.name)}
+                        {renderTransferDetailsRow('Recipient phone number', recipient.phoneNumber)}
                         {renderTransferDetailsRow('Note', note)}
                         {renderTransferDetailsRow('Date', new Date().toLocaleDateString())}
                         {renderTransferDetailsRow('Transfer Method', 'Instant Transfer')}

@@ -1,9 +1,10 @@
+import { Contact } from '@features/contacts/types';
 import { createContext, PropsWithChildren, useState } from 'react';
 import { TransferResponse } from 'src/api/types';
 
 interface TransferContextValue {
-    recipient: string;
-    setRecipient: (recipient: string) => void;
+    recipient: Contact;
+    setRecipient: (recipient: Contact) => void;
     amount: number;
     setAmount: (amount: number) => void;
     note: string;
@@ -17,7 +18,7 @@ export const TransferContext = createContext<TransferContextValue | undefined>(u
 const TransferContextProvider: React.FC<PropsWithChildren> = (props) => {
     const { children } = props;
 
-    const [recipient, setRecipient] = useState('');
+    const [recipient, setRecipient] = useState<Contact>({ name: '', phoneNumber: '' });
     const [amount, setAmount] = useState(0);
     const [note, setNote] = useState('');
     const [response, setResponse] = useState<TransferResponse>();

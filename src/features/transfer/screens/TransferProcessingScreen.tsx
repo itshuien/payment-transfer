@@ -14,9 +14,7 @@ const TransferProcessingScreen = () => {
 
     useEffect(() => {
         transferMoney({
-            recipient: {
-                phoneNumber: recipient,
-            },
+            recipient,
             amount,
             note,
         }, {

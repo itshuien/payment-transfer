@@ -16,7 +16,7 @@ const TransferRecipientScreen = () => {
     const { setRecipient } = useTransferContext();
 
     const onContactPress = (contact: Contact) => {
-        setRecipient(contact.name);
+        setRecipient(contact);
         router.push('/transfer/amount');
     };
 
