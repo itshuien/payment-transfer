@@ -1,12 +1,12 @@
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { FlatList, FlatListProps, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, FlatListProps, StyleSheet, View } from 'react-native';
 import ScreenHeader from '@components/ScreenHeader';
 import useTransferContext from '../context/useTransferContext';
 import { Contact } from '@features/contacts/types';
 import { CONTACTS } from '@features/contacts/constants';
-import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import ListItem from '@components/ListItem';
 
 const TransferRecipientScreen = () => {
     const router = useRouter();
@@ -21,20 +21,14 @@ const TransferRecipientScreen = () => {
     };
 
     const renderItem: FlatListProps<Contact>['renderItem'] = ({ item }) => (
-        <TouchableOpacity
-            key={`${item.name}-${item.phoneNumber}`}
+        <ListItem
+            leading={{ icon: 'person' }}
+            text={{
+                primary: item.name,
+                secondary: item.phoneNumber,
+            }}
             onPress={() => onContactPress(item)}
-            style={styles.contactItem}
-            activeOpacity={0.7}
-        >
-            <View style={styles.contactAvatar}>
-                <Ionicons name="person" size={24} color="#bbb" />
-            </View>
-            <View style={{ gap: 4 }}>
-                <Text style={styles.contactName}>{item.name}</Text>
-                <Text style={styles.contactPhoneNumber}>{item.phoneNumber}</Text>
-            </View>
-        </TouchableOpacity>
+        />
     );
 
     return (
@@ -49,6 +43,7 @@ const TransferRecipientScreen = () => {
                 keyExtractor={(item) => `${item.name}-${item.phoneNumber}`}
                 style={styles.contactList}
                 contentContainerStyle={{ paddingBottom: bottom }}
+                ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: '#ddd' }} />}
 
                 /**
                  * Avoid scrollbar alignment issue
