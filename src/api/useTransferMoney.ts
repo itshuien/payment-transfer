@@ -3,19 +3,24 @@ import TransferApi from "./TransferApi";
 import { TransferErrorResponse, TransferRequest, TransferSuccessResponse } from "./types";
 import { server } from "./mocks/server";
 import transferHandlers from "./mocks/transferHandlers";
+import { HttpHandler } from "msw";
 
 const useTransferMoney = () => {
     return useMutation<TransferSuccessResponse, TransferErrorResponse | Error, TransferRequest>({
         mutationFn: async (request) => {
             /**
              * Override transfer request handlers.
-             * Comment out the scenario you want to test.
+             * Request handler is selected based on the request amount.
              */
-            server.use(transferHandlers.success(request));
-            // server.use(transferHandlers.insufficientBalanceError);
-            // server.use(transferHandlers.networkError);
-            // server.use(transferHandlers.invalidRecipientError)
-            // server.use(transferHandlers.serverError);
+            const scenarios: Record<string, HttpHandler> = {
+                '0.01': transferHandlers.success(request),
+                '0.02': transferHandlers.invalidRecipientError,
+                '0.03': transferHandlers.insufficientBalanceError,
+                '0.04': transferHandlers.serverError,
+                '0.05': transferHandlers.networkError,
+            };
+            const requestHandler = scenarios[request.amount.toString()] ?? transferHandlers.success(request);
+            server.use(requestHandler);
 
             const response = await TransferApi.transfer(request);
             const responseJson = await response.json();
