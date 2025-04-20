@@ -78,7 +78,24 @@ const TransferHistoryDetailsScreen = () => {
                     />
                     {renderTransactionDetails()}
                 </View>
-                <SafeAreaView>
+                <SafeAreaView style={{ gap: 12 }}>
+                    {isOutgoingTransfer && (
+                        <Button
+                            text={'Send again'}
+                            onPress={() => {
+                                router.push({
+                                    pathname: '/transfer/confirmation',
+                                    params: {
+                                        recipientName,
+                                        recipientPhoneNumber,
+                                        amount,
+                                        note,
+                                    },
+                                });
+                            }}
+                            style={{ backgroundColor: '#007fff' }}
+                        />
+                    )}
                     <Button
                         text={'Close'}
                         onPress={() => router.dismissTo('/')}

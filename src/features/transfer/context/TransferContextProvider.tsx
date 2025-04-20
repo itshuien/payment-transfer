@@ -15,12 +15,19 @@ interface TransferContextValue {
 
 export const TransferContext = createContext<TransferContextValue | undefined>(undefined);
 
-const TransferContextProvider: React.FC<PropsWithChildren> = (props) => {
-    const { children } = props;
+interface Props {
+    initialState: Pick<TransferContextValue, 'recipient' | 'amount' | 'note'>;
+}
 
-    const [recipient, setRecipient] = useState<Contact>({ name: '', phoneNumber: '' });
-    const [amount, setAmount] = useState(0);
-    const [note, setNote] = useState('');
+const TransferContextProvider: React.FC<PropsWithChildren<Props>> = (props) => {
+    const { children, initialState } = props;
+
+    const [recipient, setRecipient] = useState<Contact>({
+        name: initialState.recipient.name,
+        phoneNumber: initialState.recipient.phoneNumber,
+    });
+    const [amount, setAmount] = useState(initialState.amount);
+    const [note, setNote] = useState(initialState.note);
     const [response, setResponse] = useState<TransferSuccessResponse>();
 
     return (
