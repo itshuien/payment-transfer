@@ -1,4 +1,5 @@
 import { createContext, PropsWithChildren, useState } from 'react';
+import { TransferResponse } from 'src/api/types';
 
 interface TransferContextValue {
     recipient: string;
@@ -7,6 +8,8 @@ interface TransferContextValue {
     setAmount: (amount: number) => void;
     note: string;
     setNote: (note: string) => void;
+    response?: TransferResponse;
+    setResponse: (response: TransferResponse) => void;
 }
 
 export const TransferContext = createContext<TransferContextValue | undefined>(undefined);
@@ -17,6 +20,7 @@ const TransferContextProvider: React.FC<PropsWithChildren> = (props) => {
     const [recipient, setRecipient] = useState('');
     const [amount, setAmount] = useState(0);
     const [note, setNote] = useState('');
+    const [response, setResponse] = useState<TransferResponse>();
 
     return (
         <TransferContext.Provider
@@ -27,6 +31,8 @@ const TransferContextProvider: React.FC<PropsWithChildren> = (props) => {
                 setAmount,
                 note,
                 setNote,
+                response,
+                setResponse,
             }}
         >
             {children}

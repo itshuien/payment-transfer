@@ -8,7 +8,7 @@ import useTransferContext from '../context/useTransferContext';
 const TransferProcessingScreen = () => {
     const router = useRouter();
 
-    const { recipient, amount, note } = useTransferContext();
+    const { recipient, amount, note, setResponse } = useTransferContext();
 
     const { mutate: transferMoney, isSuccess, isError } = useTransferMoney();
 
@@ -19,6 +19,8 @@ const TransferProcessingScreen = () => {
             },
             amount,
             note,
+        }, {
+            onSuccess: setResponse,
         });
     }, []);
 
