@@ -1,34 +1,68 @@
-import { StyleProp, StyleSheet, Text, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native';
 import React from 'react';
+
+type ButtonVariant = 'primary' | 'secondary';
 
 interface Props {
     text: string;
     onPress: () => void;
     disabled?: boolean;
+    variant?: ButtonVariant;
     style?: StyleProp<ViewStyle>;
 }
 
 const Button: React.FC<Props> = (props) => {
-    const { text, onPress, disabled } = props;
+    const { text, onPress, disabled, variant = 'primary', } = props;
+
+    const variantStyles = VARIANT_STYLES[variant];
 
     return (
         <TouchableOpacity
             style={[
                 styles.container,
-                { opacity: disabled ? 0.2 : 1 },
+                variantStyles.container,
                 props.style,
+                { opacity: disabled ? 0.2 : 1 },
             ]}
             onPress={onPress}
             disabled={disabled}
         >
-            <Text style={styles.text}>{text}</Text>
+            <Text
+                style={[
+                    styles.text,
+                    variantStyles.text,
+                ]}
+            >
+                {text}
+            </Text>
         </TouchableOpacity>
     );
 }
 
+const VARIANT_STYLES: Record<ButtonVariant, {
+    container: ViewStyle;
+    text: TextStyle;
+}> = {
+    primary: {
+        container: {
+            backgroundColor: 'black',
+        },
+        text: {
+            color: 'white',
+        },
+    },
+    secondary: {
+        container: {
+            backgroundColor: '#ddd',
+        },
+        text: {
+            color: 'black',
+        },
+    },
+};
+
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'black',
         padding: 16,
         borderRadius: 48,
         alignItems: 'center',
