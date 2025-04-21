@@ -33,6 +33,43 @@ This is a React Native application built with [Expo](https://expo.dev) for manag
        npx expo run:ios --device
        ```
 
+## Demo
+
+<table>
+   <thead>
+      <tr>
+         <th>Scenario</th>
+         <th>Screen recording</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr>
+         <td>Transfer successful</td>
+         <td>
+            <video src="https://github.com/user-attachments/assets/db8186d9-b04e-4584-84f8-7efce7fc01bf" />
+         </td>
+      </tr>
+      <tr>
+         <td>Transfer failed</td>
+         <td>
+            <video src="https://github.com/user-attachments/assets/fbca14ad-1739-4e49-86cf-89b0d6664c5c" />
+         </td>
+      </tr>
+      <tr>
+         <td>Biometric authentication fallback</td>
+         <td>
+            <video src="https://github.com/user-attachments/assets/92c37fca-c2c6-4891-99d5-f7634bf1d465" />
+         </td>
+      </tr>
+      <tr>
+         <td>Repeat transfer</td>
+         <td>
+            <video src="https://github.com/user-attachments/assets/a898b7a7-517f-42fe-a377-afbc1b5a5c80" />
+         </td>
+      </tr>
+   </tbody>
+</table>
+
 ## Mock API
 
 The app uses `msw` (Mock Service Worker) to simulate API calls. There is no real backend integration. The following endpoints are mocked:
