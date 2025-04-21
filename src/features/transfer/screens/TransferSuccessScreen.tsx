@@ -6,23 +6,16 @@ import Button from '@components/Button';
 import { Ionicons } from '@expo/vector-icons';
 import useTransferContext from '../context/useTransferContext';
 import { TransferSuccessResponse } from 'src/api/types';
-import { CONTACTS } from '@features/contacts/constants';
 import { formatAmount } from '@utils';
+import InfoTable, { InfoTableRow } from '@components/InfoTable';
 
 const TransferSuccessScreen = () => {
     const router = useRouter();
 
     const { response } = useTransferContext();
 
-    const renderTransactionDetailsRow = (label: string, value: string) => (
-        <View style={styles.row}>
-            <Text style={styles.rowLabel}>{label}</Text>
-            <Text style={styles.rowValue}>{value}</Text>
-        </View>
-    );
-
     const renderTransactionDetails = (transaction: TransferSuccessResponse['data']['transaction']) => {
-        const contact = CONTACTS.find(item => item.phoneNumber === transaction.recipient.phoneNumber);
+        const { recipient } = transaction;
 
         return (
             <>
@@ -30,14 +23,14 @@ const TransferSuccessScreen = () => {
                     {formatAmount(transaction.amount)}
                 </Text>
                 <View style={styles.divider} />
-                <View style={styles.details}>
-                    {contact && renderTransactionDetailsRow('Recipient name', contact.name)}
-                    {renderTransactionDetailsRow('Recipient phone number', transaction.recipient.phoneNumber)}
-                    {renderTransactionDetailsRow('Note', transaction.note ?? '')}
-                    {renderTransactionDetailsRow('Transaction ID', transaction.id)}
-                    {renderTransactionDetailsRow('Date', new Date(transaction.createdAt).toLocaleDateString())}
-                    {renderTransactionDetailsRow('Time', new Date(transaction.createdAt).toLocaleTimeString())}
-                </View>
+                <InfoTable>
+                    <InfoTableRow label={'Recipient name'} value={recipient.name} />
+                    <InfoTableRow label={'Recipient phone number'} value={recipient.phoneNumber} />
+                    <InfoTableRow label={'Note'} value={transaction.note ?? ''} />
+                    <InfoTableRow label={'Transaction ID'} value={transaction.id} />
+                    <InfoTableRow label={'Date'} value={new Date(transaction.createdAt).toLocaleDateString()} />
+                    <InfoTableRow label={'Time'} value={new Date(transaction.createdAt).toLocaleTimeString()} />
+                </InfoTable>
             </>
         )
     }
@@ -64,7 +57,7 @@ const TransferSuccessScreen = () => {
 const styles = StyleSheet.create({
     body: {
         flex: 1,
-        padding: 32,
+        padding: 24,
         justifyContent: 'space-between',
     },
     bodyContent: {
@@ -80,28 +73,6 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         borderStyle: 'dashed',
         width: '100%',
-    },
-    details: {
-        width: '100%',
-        gap: 24,
-        marginTop: 8,
-    },
-    row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        gap: 24,
-    },
-    rowLabel: {
-        flexGrow: 1,
-        flexShrink: 0,
-        fontSize: 16,
-        color: '#888',
-    },
-    rowValue: {
-        flexShrink: 1,
-        fontSize: 16,
-        fontWeight: 500,
-        textAlign: 'right',
     },
 });
 

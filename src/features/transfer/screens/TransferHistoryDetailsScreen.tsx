@@ -6,6 +6,7 @@ import Button from '@components/Button';
 import { Ionicons } from '@expo/vector-icons';
 import { formatAmount } from '@utils';
 import { CURRENT_USER } from 'src/api/mocks/constants';
+import InfoTable, { InfoTableRow } from '@components/InfoTable';
 
 type Params = {
     senderName: string;
@@ -36,13 +37,6 @@ const TransferHistoryDetailsScreen = () => {
 
     const isOutgoingTransfer = senderPhoneNumber === CURRENT_USER.phoneNumber;
 
-    const renderTransactionDetailsRow = (label: string, value: string) => (
-        <View style={styles.row}>
-            <Text style={styles.rowLabel}>{label}</Text>
-            <Text style={styles.rowValue}>{value}</Text>
-        </View>
-    );
-
     const renderTransactionDetails = () => {
         const oppositeUser = senderPhoneNumber === CURRENT_USER.phoneNumber
             ? { name: recipientName, phoneNumber: recipientPhoneNumber }
@@ -56,14 +50,14 @@ const TransferHistoryDetailsScreen = () => {
                     {formattedAmount}
                 </Text>
                 <View style={styles.divider} />
-                <View style={styles.details}>
-                    {renderTransactionDetailsRow('Recipient name', oppositeUser.name)}
-                    {renderTransactionDetailsRow('Recipient phone number', oppositeUser.phoneNumber)}
-                    {renderTransactionDetailsRow('Note', note ?? '')}
-                    {renderTransactionDetailsRow('Transaction ID', transactionId)}
-                    {renderTransactionDetailsRow('Date', new Date(createdAt).toLocaleDateString())}
-                    {renderTransactionDetailsRow('Time', new Date(createdAt).toLocaleTimeString())}
-                </View>
+                <InfoTable>
+                    <InfoTableRow label={'Recipient name'} value={oppositeUser.name} />
+                    <InfoTableRow label={'Recipient phone number'} value={oppositeUser.phoneNumber} />
+                    <InfoTableRow label={'Note'} value={note ?? ''} />
+                    <InfoTableRow label={'Transaction ID'} value={transactionId} />
+                    <InfoTableRow label={'Date'} value={new Date(createdAt).toLocaleDateString()} />
+                    <InfoTableRow label={'Time'} value={new Date(createdAt).toLocaleTimeString()} />
+                </InfoTable>
             </>
         )
     }
@@ -100,7 +94,6 @@ const TransferHistoryDetailsScreen = () => {
                                 });
                             }}
                         />
-
                     </SafeAreaView>
                 )}
             </View>
@@ -111,12 +104,12 @@ const TransferHistoryDetailsScreen = () => {
 const styles = StyleSheet.create({
     body: {
         flex: 1,
-        padding: 32,
+        padding: 24,
         justifyContent: 'space-between',
     },
     bodyContent: {
         alignItems: 'center',
-        gap: 32,
+        gap: 24,
     },
     outgoingIcon: {
         transform: [{ translateX: 10 }, { rotate: '-45deg' }],
@@ -135,28 +128,6 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         borderStyle: 'dashed',
         width: '100%',
-    },
-    details: {
-        width: '100%',
-        gap: 24,
-        marginTop: 8,
-    },
-    row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        gap: 24,
-    },
-    rowLabel: {
-        flexGrow: 1,
-        flexShrink: 0,
-        fontSize: 16,
-        color: '#888',
-    },
-    rowValue: {
-        flexShrink: 1,
-        fontSize: 16,
-        fontWeight: 500,
-        textAlign: 'right',
     },
 });
 

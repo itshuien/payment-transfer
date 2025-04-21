@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, Text, TextInput, StyleSheet, View, TouchableOpacity, SafeAreaView } from 'react-native';
+import { KeyboardAvoidingView, Text, TextInput, StyleSheet, View, TouchableOpacity, SafeAreaView, Platform, Keyboard } from 'react-native';
 import ScreenHeader from '@components/ScreenHeader';
 import Button from '@components/Button';
 import useTransferContext from '../context/useTransferContext';
@@ -36,7 +36,10 @@ const TransferNoteScreen = () => {
                 title={'Add a note'}
                 onBackPress={() => router.back()}
             />
-            <KeyboardAvoidingView style={styles.body} behavior="padding">
+            <KeyboardAvoidingView
+                style={styles.body}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            >
                 <View>
                     <View style={styles.sectionContainer}>
                         <Text style={styles.label}>Optional note for the recipient</Text>
@@ -47,6 +50,8 @@ const TransferNoteScreen = () => {
                             style={styles.noteInput}
                             multiline
                             autoFocus
+                            submitBehavior="blurAndSubmit"
+                            onSubmitEditing={Keyboard.dismiss}
                         />
                     </View>
                     <View style={styles.sectionContainer}>
