@@ -1,50 +1,70 @@
-# Welcome to your Expo app 👋
+# Payment Transfer
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a React Native application built with [Expo](https://expo.dev) for managing payment transfers.
 
-## Get started
+## Getting Started
 
-1. Install dependencies
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/itshuien/payment-transfer.git
+   cd payment-transfer
+   ```
 
+2. **Install dependencies**:
    ```bash
    npm install
    ```
 
-2. Start the app
+3. **Run the app**:
+   - Expo Go
+      ```bash
+      npx expo start
+      ```
+     - **Android**: Press `a` to open the app in an Android emulator.
+     - **iOS**: Press `i` to open the app in an iOS simulator.
+     - **Physical Device**: Scan the QR code in the Expo Go app (available on the App Store or Google Play).
+   - Development build on physical device
+     - **Android**:
+       ```bash
+       npx expo run:android --device
+       ```
+     - **iOS**:
+       ```bash
+       npx expo run:ios --device
+       ```
 
-   ```bash
-    npx expo start
-   ```
+## Mock API
 
-In the output, you'll find options to open the app in a
+The app uses `msw` (Mock Service Worker) to simulate API calls. There is no real backend integration. The following endpoints are mocked:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+| Method | Endpoint | Description |
+|-|-|-|
+| GET | /api/account-balance | Returns the current account balance |
+| GET | /api/transfer-history | Returns a list of recent transactions |
+| POST | /api/transfer | Submits a transfer request |
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Mock Data and Predefined Values
 
-## Get a fresh project
+The app uses mock data and hardcoded values to simulate a real-world experience. Here's what to expect:
 
-When you're ready, run:
+1. **Mock Data**:
+   - **Account Balance**: Dynamically generated on every app start.
+   - **Recent Transfer History**: A list of 5 recent transactions, re-generated on every app start.
 
-```bash
-npm run reset-project
-```
+2. **Hardcoded Values**:
+   - **PIN Code**: The app uses a hardcoded PIN code `111111` for authentication purposes.
+   - **Contacts**: A predefined list of contacts is hardcoded into the app for recipient selection.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Testing Transfer Scenarios
 
-## Learn more
+You can simulate different outcomes for transfers by entering specific amounts:
 
-To learn more about developing your project with Expo, look at the following resources:
+| Amount | Simulated Outcome |
+|-|-|
+| 0.01 | Successful transfer |
+| 0.02 | Invalid recipient |
+| 0.03 | Insufficient balance |
+| 0.04 | Server error |
+| 0.05 | Network error |
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+These outcomes are configured in the mock API handlers. To test other scenarios, modify the `server.use` configuration located in [`useTransferMoney.ts`](src/api/useTransferMoney.ts).
